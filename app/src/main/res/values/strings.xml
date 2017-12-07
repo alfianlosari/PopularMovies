@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PopularMovies</string>
+    <string name="sort_by">Sort By</string>
+    <string name="sort_popular">Popular</string>
+    <string name="sort_top_rated">Top Rated</string>
+    <string name="error_message">An error has occurred</string>
+    <string name="thumbnail_content_desc">thumbnail of movie</string>
+    <string name="release_date">Released: </string>
+    <string name="average_vote">Average Vote: </string>
+    <string name="movie_parcelable">movie</string>
+</resources>
