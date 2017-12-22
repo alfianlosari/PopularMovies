@@ -219,6 +219,7 @@ public class DetailActivity extends AppCompatActivity implements MovieDetailRecy
             } else {
                 mMovie.isFavorite = false;
             }
+            cursor.close();
 
             getSupportActionBar().setTitle(movie.title);
 

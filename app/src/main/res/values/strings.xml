@@ -12,8 +12,6 @@
     <string name="release_date">Released: </string>
     <string name="average_vote">Average Vote: </string>
     <string name="movie_parcelable" translatable="false">movie</string>
-    <string name="movie_id" translatable="false">movie_id</string>
-    <string name="movie_favorite" translatable="false">movie_favorite</string>
     <string name="set_favorite">Set as favorite</string>
     <string name="unset_favorite">Unset as favorite</string>
     <string name="trailer_title">Trailers</string>

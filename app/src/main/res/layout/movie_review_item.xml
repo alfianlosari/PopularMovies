@@ -22,7 +22,6 @@
             android:id="@+id/reviewAuthorTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Author"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@android:color/white" />
 
@@ -32,7 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:text="TextView"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

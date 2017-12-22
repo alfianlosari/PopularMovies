@@ -14,7 +14,7 @@ public enum SortType {
     private int value;
     private static Map map = new HashMap<>();
 
-    private SortType(int value) {
+    SortType(int value) {
         this.value = value;
     }
 
@@ -33,6 +33,6 @@ public enum SortType {
     }
 
 
-};
+}
 
 
