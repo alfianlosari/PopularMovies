@@ -15,8 +15,47 @@ public final class NetworkUtils {
     private static final String MOVIE_BASE_URL = "https://api.themoviedb.org/3/movie";
     private static final String POPULAR_MOVIE_BASE_URL = MOVIE_BASE_URL + "/popular";
     private static final String TOP_RATED_MOVIE_BASE_URL = MOVIE_BASE_URL + "/top_rated";
-    private static final String API_KEY = "PASTE_API_KEY_HERE";
+    private static final String API_KEY = "9a4cbc5790eb0c51e521651e19490c35";
     private final static String API_KEY_PARAM = "api_key";
+
+    private static String movieReviewsURL(String movieId) {
+        return MOVIE_BASE_URL + "/" + movieId + "/reviews";
+    }
+
+    private static String movieVideosURL(String movieId) {
+        return MOVIE_BASE_URL + "/" + movieId + "/videos";
+    }
+
+    public static URL buildUrlForMovieReview(String movieId) {
+        String urlString = movieReviewsURL(movieId);
+        Uri builtUri = Uri.parse(urlString).buildUpon()
+                .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch(MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    public static URL buildUrlForMovieVideos(String movieId) {
+        String urlString = movieVideosURL(movieId);
+        Uri builtUri = Uri.parse(urlString).buildUpon()
+                .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch(MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
 
     public static URL buildUrl(SortType sortType) {
         String urlString;

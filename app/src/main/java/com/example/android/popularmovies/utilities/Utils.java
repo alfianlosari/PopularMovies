@@ -17,4 +17,8 @@ public class Utils {
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         return (int) (dpWidth / COLUMN_WIDTH);
     }
+
+    public static String posterPathURL(String posterPath) {
+        return "http://image.tmdb.org/t/p/w185//" + posterPath;
+    }
 }

@@ -3,5 +3,6 @@
     <string-array name="sort_types">
         <item>@string/sort_popular</item>
         <item>@string/sort_top_rated</item>
+        <item>@string/sort_favorites</item>
     </string-array>
 </resources>

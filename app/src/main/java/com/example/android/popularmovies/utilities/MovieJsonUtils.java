@@ -1,6 +1,8 @@
 package com.example.android.popularmovies.utilities;
 
 import com.example.android.popularmovies.data.Movie;
+import com.example.android.popularmovies.data.Review;
+import com.example.android.popularmovies.data.Video;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,7 +15,7 @@ import org.json.JSONObject;
 @SuppressWarnings("DefaultFileTemplate")
 public final class MovieJsonUtils {
 
-    public static Movie[] getSimpleWeatherStringsFromJson(String movieJsonStr)
+    public static Movie[] getMoviesFromJson(String movieJsonStr)
             throws JSONException {
 
         JSONObject movieJson = new JSONObject(movieJsonStr);
@@ -28,4 +30,38 @@ public final class MovieJsonUtils {
         }
         return parsedMovieData;
     }
+
+    public static Review[] getReviewsFromJSON(String reviewJsonStr) throws JSONException {
+        JSONObject reviewJson = new JSONObject(reviewJsonStr);
+        JSONArray reviewsArray = reviewJson.getJSONArray("results");
+
+        Review[] parsedReviewData = new Review[reviewsArray.length()];
+        for(int i = 0; i < reviewsArray.length(); i++) {
+            JSONObject reviewObject = reviewsArray.getJSONObject(i);
+            Review review = new Review(reviewObject);
+            parsedReviewData[i] = review;
+        }
+
+        return parsedReviewData;
+
+    }
+
+    public static Video[] getVideosFromJSON(String videoJsonStr) throws JSONException {
+        JSONObject videoJson = new JSONObject(videoJsonStr);
+        JSONArray videosArray = videoJson.getJSONArray("results");
+
+        Video[] parsedVideoData = new Video[videosArray.length()];
+        for(int i = 0; i < videosArray.length(); i++) {
+            JSONObject videoObject = videosArray.getJSONObject(i);
+            Video video = new Video(videoObject);
+            parsedVideoData[i] = video;
+        }
+
+        return parsedVideoData;
+
+    }
+
+
+
+
 }

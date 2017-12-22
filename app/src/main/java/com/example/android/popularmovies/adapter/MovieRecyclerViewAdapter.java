@@ -65,12 +65,13 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         public void onClick(View view) {
             int position = getAdapterPosition();
             Movie movie = mMovies[position];
-            mListener.movieClicked(movie);
+            mListener.onClickMovie(movie);
         }
     }
 
     public interface MovieRecyclerViewAdapterOnClickListener {
-        void movieClicked(Movie movie);
+        void onClickMovie(Movie movie);
+
     }
 
 }

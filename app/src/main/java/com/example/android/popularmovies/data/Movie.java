@@ -1,7 +1,10 @@
 package com.example.android.popularmovies.data;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.example.android.popularmovies.utilities.SortType;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +24,20 @@ public class Movie implements Parcelable{
     public String overview;
     public String releaseDate;
     public String originalTitle;
+    public boolean isFavorite = false;
 
+    public Movie(String id , String title, String posterPath,
+                 String overview, String releaseDate, String originalTitle,
+                 double voteAverage, double popularity) {
+        this.id = id;
+        this.title = title;
+        this.posterPath = posterPath;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.originalTitle = originalTitle;
+        this.voteAverage = voteAverage;
+        this.popularity = popularity;
+    }
 
     public Movie(JSONObject json) throws JSONException {
         this.id = json.getString("id");
@@ -39,6 +55,19 @@ public class Movie implements Parcelable{
     public String imagePath() {
         return "http://image.tmdb.org/t/p/w185//" + posterPath;
     }
+    public ContentValues contentValues() {
+        ContentValues cv = new ContentValues();
+        cv.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, id);
+        cv.put(MovieContract.MovieEntry.COLUMN_TITLE, title);
+        cv.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE, originalTitle);
+        cv.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, voteAverage);
+        cv.put(MovieContract.MovieEntry.COLUMN_POPULARITY, popularity);
+        cv.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, posterPath);
+        cv.put(MovieContract.MovieEntry.COLUMN_OVERVIEW, overview);
+        cv.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
+        return cv;
+    }
+
 
     @Override
     public int describeContents() {
@@ -78,6 +107,7 @@ public class Movie implements Parcelable{
             return new Movie[size];
         }
     };
+
 
 
 }
