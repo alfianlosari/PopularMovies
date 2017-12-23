@@ -3,11 +3,13 @@ package com.example.android.popularmovies.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by alfianlosari on 21/12/17.
  */
 
-public class Video {
+public class Video implements Serializable {
     public String id;
     public String name;
     public String key;
