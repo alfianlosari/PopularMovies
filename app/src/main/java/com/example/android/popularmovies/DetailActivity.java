@@ -12,12 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.android.popularmovies.adapter.MovieDetailRecyclerViewAdapter;
 import com.example.android.popularmovies.data.Header;
@@ -27,17 +22,17 @@ import com.example.android.popularmovies.data.Review;
 import com.example.android.popularmovies.data.Video;
 import com.example.android.popularmovies.utilities.MovieJsonUtils;
 import com.example.android.popularmovies.utilities.NetworkUtils;
-import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
 public class DetailActivity extends AppCompatActivity implements MovieDetailRecyclerViewAdapter.MovieDetailOnClickListener {
 
-
     private Movie mMovie;
     private RecyclerView mMovieDataList;
     private MovieDetailRecyclerViewAdapter mAdapter;
 
+    private static final String REVIEWS_SAVE_INSTANCE_KEY = "reviews";
+    private static final String VIDEOS_SAVE_INSTANCE_KEY = "videos";
 
     private static final int ID_FETCH_REVIEWS_LOADER = 203;
     private static final int ID_FETCH_VIDEOS_LOADER = 204;
@@ -145,7 +140,7 @@ public class DetailActivity extends AppCompatActivity implements MovieDetailRecy
     };
 
 
-    private LoaderManager.LoaderCallbacks<Video[]> mVideosAsynTaskLoaderCallback = new LoaderManager.LoaderCallbacks<Video[]>() {
+    private LoaderManager.LoaderCallbacks<Video[]> mVideosAsyncTaskLoaderCallback = new LoaderManager.LoaderCallbacks<Video[]>() {
         @Override
         public Loader<Video[]> onCreateLoader(int id, Bundle args) {
             return new AsyncTaskLoader<Video[]>(DetailActivity.this) {
@@ -210,7 +205,6 @@ public class DetailActivity extends AppCompatActivity implements MovieDetailRecy
         Movie movie = intent.getParcelableExtra(getResources().getString(R.string.movie_parcelable));
         mMovieDataList = findViewById(R.id.rv_movie_data);
 
-
         if (movie != null) {
             mMovie = movie;
             Cursor cursor = getContentResolver().query(MovieContract.MovieEntry.buildMovieUriWithId(movie.id), null, null, null, null);
@@ -228,15 +222,25 @@ public class DetailActivity extends AppCompatActivity implements MovieDetailRecy
             mMovieDataList.setLayoutManager(layoutManager);
             mAdapter = new MovieDetailRecyclerViewAdapter(this, this);
             mMovieDataList.setAdapter(mAdapter);
+
+            if (savedInstanceState == null) {
+                LoaderManager loaderManager = getSupportLoaderManager();
+                loaderManager.restartLoader(ID_FETCH_REVIEWS_LOADER, null, mReviewsAsyncTaskLoaderCallback);
+                loaderManager.restartLoader(ID_FETCH_VIDEOS_LOADER, null, mVideosAsyncTaskLoaderCallback);
+            } else {
+                mVideos = (Video[]) savedInstanceState.getSerializable(VIDEOS_SAVE_INSTANCE_KEY);
+                mReviews = (Review[]) savedInstanceState.getSerializable(REVIEWS_SAVE_INSTANCE_KEY);
+            }
             mAdapter.setData(generateMovieData());
-
-            LoaderManager loaderManager = getSupportLoaderManager();
-            loaderManager.restartLoader(ID_FETCH_REVIEWS_LOADER, null, mReviewsAsyncTaskLoaderCallback);
-            loaderManager.restartLoader(ID_FETCH_VIDEOS_LOADER, null, mVideosAsynTaskLoaderCallback);
         }
-
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(VIDEOS_SAVE_INSTANCE_KEY, mVideos);
+        outState.putSerializable(REVIEWS_SAVE_INSTANCE_KEY, mReviews);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

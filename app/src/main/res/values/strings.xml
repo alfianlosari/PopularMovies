@@ -5,9 +5,7 @@
     <string name="sort_top_rated">Top Rated</string>
     <string name="sort_favorites">Favorites</string>
     <string name="error_message">An error has occurred</string>
-    <string name="no_favorites_message">
-        No Favorite movies. Please add favorite movies
-    </string>
+    <string name="no_favorites_message">No Favorite movies. Please add favorite movies</string>
     <string name="thumbnail_content_desc">thumbnail of movie</string>
     <string name="release_date">Released: </string>
     <string name="average_vote">Average Vote: </string>
@@ -18,4 +16,5 @@
     <string name="no_trailer_title">Trailers not available</string>
     <string name="review_title">Reviews</string>
     <string name="no_review_title">Reviews not available</string>
+    <string name="pref_sort_by_key" translatable="false">sort_by</string>
 </resources>

@@ -3,7 +3,6 @@ package com.example.android.popularmovies;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -39,13 +38,15 @@ public class MainActivity extends AppCompatActivity implements
 
     private RecyclerView mMoviesList;
     private MovieRecyclerViewAdapter mMovieAdapter;
-    private MovieCursorRecyclerViewAdapter mFavoriteMoviewAdapter;
+    private MovieCursorRecyclerViewAdapter mFavoriteMovieAdapter;
     private TextView mErrorMessageTextView;
     private ProgressBar mProgressBar;
 
+    private static final String SPINNER_POSITION_KEY = "SPINNER_POSITION_KEY";
     private static final String SORT_TYPE_KEY = "SORT_TYPE_KEY";
     private static final int ID_FETCH_MOVIES_LOADER = 201;
     private static final int ID_FAVORITES_MOVIE_LOADER = 202;
+    private Spinner spinner;
 
     public static final String[] MAIN_MOVIES_PROJECTION = {
             MovieContract.MovieEntry.COLUMN_MOVIE_ID,
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements
     public static final int INDEX_MOVIE_POPULARITY = 5;
     public static final int INDEX_MOVIE_OVERVIEW = 6;
     public static final int INDEX_MOVIEW_RELEASE_DATE = 7;
+    private int spinnerPosition = -1;
 
     private LoaderManager.LoaderCallbacks<Movie[]> mMoviesAsyncTaskLoaderCallbacks = new LoaderManager.LoaderCallbacks<Movie[]>() {
         @Override
@@ -124,7 +126,9 @@ public class MainActivity extends AppCompatActivity implements
             if (data != null) {
                 showMovieListView();
                 mMovieAdapter.setMovies(data);
-                mMoviesList.setAdapter(mMovieAdapter);
+                if (mMoviesList.getAdapter() != mMovieAdapter) {
+                    mMoviesList.setAdapter(mMovieAdapter);
+                }
             } else {
                 showErrorMessage();
             }
@@ -132,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements
 
         @Override
         public void onLoaderReset(Loader<Movie[]> loader) {
-            mFavoriteMoviewAdapter.swapCursor(null);
+            mFavoriteMovieAdapter.swapCursor(null);
         }
     };
 
@@ -164,14 +168,16 @@ public class MainActivity extends AppCompatActivity implements
                 showNoFavoritesMovieMessage();
             } else {
                 showMovieListView();
-                mFavoriteMoviewAdapter.swapCursor(data);
-                mMoviesList.setAdapter(mFavoriteMoviewAdapter);
+                mFavoriteMovieAdapter.swapCursor(data);
+                if (mMoviesList.getAdapter() != mFavoriteMovieAdapter) {
+                    mMoviesList.setAdapter(mFavoriteMovieAdapter);
+                }
             }
         }
 
         @Override
         public void onLoaderReset(Loader<Cursor> loader) {
-
+            mFavoriteMovieAdapter.swapCursor(null);
         }
     };
 
@@ -191,16 +197,18 @@ public class MainActivity extends AppCompatActivity implements
         mMoviesList.setHasFixedSize(true);
 
         mMovieAdapter = new MovieRecyclerViewAdapter(MainActivity.this);
-        mFavoriteMoviewAdapter = new MovieCursorRecyclerViewAdapter(MainActivity.this);
+        mFavoriteMovieAdapter = new MovieCursorRecyclerViewAdapter(MainActivity.this);
 
-        mMoviesList.setAdapter(mMovieAdapter);
+        if (savedInstanceState != null) {
+            spinnerPosition = savedInstanceState.getInt(SPINNER_POSITION_KEY);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.settings, menu);
         MenuItem menuItem = menu.findItem(R.id.spinner);
-        Spinner spinner = (Spinner) menuItem.getActionView();
+        spinner = (Spinner) menuItem.getActionView();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(MainActivity.this, R.array.sort_types, R.layout.spinner_style);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -233,6 +241,11 @@ public class MainActivity extends AppCompatActivity implements
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
 
+        if (spinnerPosition != -1) {
+            spinner.setSelection(spinnerPosition);
+        }
+
+
         return true;
     }
 
@@ -260,4 +273,9 @@ public class MainActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SPINNER_POSITION_KEY, spinner.getSelectedItemPosition());
+    }
 }
