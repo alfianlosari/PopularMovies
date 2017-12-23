@@ -16,5 +16,4 @@
     <string name="no_trailer_title">Trailers not available</string>
     <string name="review_title">Reviews</string>
     <string name="no_review_title">Reviews not available</string>
-    <string name="pref_sort_by_key" translatable="false">sort_by</string>
 </resources>
