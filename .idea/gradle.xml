@@ -8,7 +8,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/popularmovies-base" />
+            <option value="$PROJECT_DIR$/popularmoviesapk" />
+            <option value="$PROJECT_DIR$/popularmoviesdetailui" />
+            <option value="$PROJECT_DIR$/popularmoviesinstantapp" />
+            <option value="$PROJECT_DIR$/popularmovieslistui" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

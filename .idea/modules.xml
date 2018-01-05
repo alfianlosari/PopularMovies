@@ -3,7 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PopularMovies.iml" filepath="$PROJECT_DIR$/PopularMovies.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/popularmovies-base/popularmovies-base.iml" filepath="$PROJECT_DIR$/popularmovies-base/popularmovies-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/popularmoviesapk/popularmoviesapk.iml" filepath="$PROJECT_DIR$/popularmoviesapk/popularmoviesapk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/popularmoviesdetailui/popularmoviesdetailui.iml" filepath="$PROJECT_DIR$/popularmoviesdetailui/popularmoviesdetailui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/popularmoviesinstantapp/popularmoviesinstantapp.iml" filepath="$PROJECT_DIR$/popularmoviesinstantapp/popularmoviesinstantapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/popularmovieslistui/popularmovieslistui.iml" filepath="$PROJECT_DIR$/popularmovieslistui/popularmovieslistui.iml" />
     </modules>
   </component>
 </project>
