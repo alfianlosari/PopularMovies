@@ -29,6 +29,7 @@ import com.alfianlosari.android.popularmovies.utilities.MovieJsonUtils;
 import com.alfianlosari.android.popularmovies.utilities.NetworkUtils;
 import com.alfianlosari.android.popularmovies.utilities.SortType;
 import com.alfianlosari.android.popularmovies.utilities.Utils;
+import com.google.android.instantapps.InstantApps;
 
 import java.net.URL;
 
@@ -59,14 +60,6 @@ public class MovieListActivity extends AppCompatActivity implements
             MovieContract.MovieEntry.COLUMN_RELEASE_DATE
     };
 
-    public static final int INDEX_MOVIE_ID = 0;
-    public static final int INDEX_MOVIE_TITLE = 1;
-    public static final int INDEX_MOVIE_POSTER_PATH = 2;
-    public static final int INDEX_MOVIE_ORIGINAL_TITLE = 3;
-    public static final int INDEX_MOVIEW_VOTE_AVERAGE = 4;
-    public static final int INDEX_MOVIE_POPULARITY = 5;
-    public static final int INDEX_MOVIE_OVERVIEW = 6;
-    public static final int INDEX_MOVIEW_RELEASE_DATE = 7;
     private int spinnerPosition = -1;
 
     private LoaderManager.LoaderCallbacks<Movie[]> mMoviesAsyncTaskLoaderCallbacks = new LoaderManager.LoaderCallbacks<Movie[]>() {
@@ -88,7 +81,6 @@ public class MovieListActivity extends AppCompatActivity implements
                                 mProgressBar.setVisibility(View.VISIBLE);
                                 forceLoad();
                             }
-
                         }
 
                         @Nullable
@@ -116,9 +108,7 @@ public class MovieListActivity extends AppCompatActivity implements
 
                 default:
                     throw new RuntimeException("Loader Not Implemented: " + id);
-
             }
-
         }
 
         @Override
@@ -182,16 +172,14 @@ public class MovieListActivity extends AppCompatActivity implements
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.alfianlosari.android.popularmovies.R.layout.activity_movie_list);
-
         mErrorMessageTextView = findViewById(com.alfianlosari.android.popularmovies.R.id.tv_error_message);
         mProgressBar = findViewById(com.alfianlosari.android.popularmovies.R.id.pb_loading);
-
         mMoviesList = findViewById(com.alfianlosari.android.popularmovies.R.id.rv_movies);
+
         int numberOfColumns = Utils.calculateNumberOfColumns(MovieListActivity.this);
         GridLayoutManager layoutManager = new GridLayoutManager(MovieListActivity.this, numberOfColumns);
         mMoviesList.setLayoutManager(layoutManager);
@@ -208,11 +196,17 @@ public class MovieListActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(com.alfianlosari.android.popularmovies.R.menu.settings, menu);
+
+        if (InstantApps.isInstantApp(this)) {
+            menu.add(0, 1, Menu.FIRST, getResources().getString(com.alfianlosari.android.popularmovies.R.string.install));
+        }
+
         MenuItem menuItem = menu.findItem(com.alfianlosari.android.popularmovies.R.id.spinner);
         spinner = (Spinner) menuItem.getActionView();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(MovieListActivity.this, com.alfianlosari.android.popularmovies.R.array.sort_types, com.alfianlosari.android.popularmovies.R.layout.spinner_style);
         adapter.setDropDownViewResource(com.alfianlosari.android.popularmovies.R.layout.support_simple_spinner_dropdown_item);
+
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -223,6 +217,7 @@ public class MovieListActivity extends AppCompatActivity implements
 
                 LoaderManager loaderManager = getSupportLoaderManager();
                 Bundle bundle = new Bundle();
+
                 if (popularString.equals(selectedItem) || topRatedString.equals(selectedItem)) {
                     loaderManager.destroyLoader(ID_FAVORITES_MOVIE_LOADER);
                     if (popularString.equals(selectedItem)) {
@@ -231,7 +226,6 @@ public class MovieListActivity extends AppCompatActivity implements
                         bundle.putInt(SORT_TYPE_KEY, SortType.TOP_RATED.getValue());
                     }
                     loaderManager.restartLoader(ID_FETCH_MOVIES_LOADER, bundle, mMoviesAsyncTaskLoaderCallbacks);
-
                 } else {
                     loaderManager.destroyLoader(ID_FETCH_MOVIES_LOADER);
                     loaderManager.restartLoader(ID_FAVORITES_MOVIE_LOADER, null, mCursorLoaderCallbacks);
@@ -245,9 +239,25 @@ public class MovieListActivity extends AppCompatActivity implements
         if (spinnerPosition != -1) {
             spinner.setSelection(spinnerPosition);
         }
-
-
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == 1) {
+            Intent postInstalIntent = new Intent(this, MovieListActivity.class);
+            InstantApps.showInstallPrompt(this, postInstalIntent, 0, "in-app");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
     }
 
     private void showMovieListView() {

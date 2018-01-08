@@ -307,15 +307,15 @@ public class DetailActivity extends AppCompatActivity implements MovieDetailRecy
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.home:
-//                finish();
-//                return true;
-//        }
-        finish();
-        return true;
 
-//        return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+
+        if (itemId == android.support.v7.appcompat.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

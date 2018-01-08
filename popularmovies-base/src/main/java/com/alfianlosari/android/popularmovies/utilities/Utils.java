@@ -16,6 +16,8 @@ public class Utils {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         return (int) (dpWidth / COLUMN_WIDTH);
+
+
     }
 
     public static String posterPathURL(String posterPath) {

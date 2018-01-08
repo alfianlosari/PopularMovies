@@ -16,5 +16,6 @@
     <string name="no_trailer_title">Trailers not available</string>
     <string name="review_title">Reviews</string>
     <string name="no_review_title">Reviews not available</string>
+    <string name="install">Install</string>
     <string name="asset_statements" translatable="false">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://popularmovies-c30f1.firebaseapp.com\",\n  }\n}]</string>
 </resources>
