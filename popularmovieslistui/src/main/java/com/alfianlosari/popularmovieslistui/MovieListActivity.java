@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,11 @@ import com.alfianlosari.android.popularmovies.utilities.Utils;
 import com.google.android.instantapps.InstantApps;
 
 import java.net.URL;
+
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.util.LinkProperties;
 
 public class MovieListActivity extends AppCompatActivity implements
         MovieRecyclerViewAdapter.MovieRecyclerViewAdapterOnClickListener,
@@ -278,10 +284,36 @@ public class MovieListActivity extends AppCompatActivity implements
     }
 
     @Override
+    protected void onStart() {
+        Branch branch = Branch.getInstance();
+        branch.initSession(new Branch.BranchUniversalReferralInitListener() {
+            @Override
+            public void onInitFinished(BranchUniversalObject branchUniversalObject, LinkProperties linkProperties, BranchError error) {
+                if (error == null) {
+                    // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
+                    // params will be empty if no data found
+                    // ... insert custom logic here ...
+                } else {
+                    Log.i("MyApp", error.getMessage());
+                }
+            }
+        }, this.getIntent().getData(), this);
+
+        super.onStart();
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        this.setIntent(intent);
+    }
+
+    @Override
     public void onClickMovie(Movie movie) {
         Uri uri = Uri.parse("http://popularmovies-c30f1.firebaseapp.com/movies/" + movie.id);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.setPackage(this.getPackageName());
+        if (!InstantApps.isInstantApp(this)) {
+            intent.setPackage(this.getPackageName());
+        }
         startActivity(intent);
     }
 

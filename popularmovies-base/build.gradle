@@ -6,7 +6,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 8
+        versionCode 13
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -18,13 +18,13 @@ android {
 }
 
 dependencies {
-
     api(
             'com.squareup.picasso:picasso:2.5.2',
             'com.android.support:appcompat-v7:27.0.2',
             'com.android.support:recyclerview-v7:27.0.2',
             'com.android.support.constraint:constraint-layout:1.0.2',
-            'com.google.android.instantapps:instantapps:1.1.0'
+            'com.google.android.instantapps:instantapps:1.1.0',
+            'io.branch.sdk.android:library:2.+'
     )
 
     testImplementation 'junit:junit:4.12'

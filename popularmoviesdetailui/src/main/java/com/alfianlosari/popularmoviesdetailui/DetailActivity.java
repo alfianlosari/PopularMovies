@@ -119,6 +119,12 @@ public class DetailActivity extends AppCompatActivity implements MovieDetailRecy
                     try {
                         String movieDetailJsonResponse = NetworkUtils.getResponseFromHttpUrl(movieDetailURL);
                         Movie movie = MovieJsonUtils.getMovieFromJson(movieDetailJsonResponse);
+                        Cursor cursor = getContentResolver().query(MovieContract.MovieEntry.buildMovieUriWithId(mMovieId), null, null, null, null);
+                        if (cursor != null && cursor.moveToNext()) {
+                            movie.isFavorite = true;
+                            cursor.close();
+                        }
+
                         return movie;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -137,7 +143,6 @@ public class DetailActivity extends AppCompatActivity implements MovieDetailRecy
         @Override
         public void onLoadFinished(Loader<Movie> loader, Movie data) {
             mMovie = data;
-            mMovie.isFavorite = false;
             mAdapter.setData(generateMovieData());
         }
 

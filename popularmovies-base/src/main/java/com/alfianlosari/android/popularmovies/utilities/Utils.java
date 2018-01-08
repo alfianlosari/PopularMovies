@@ -21,6 +21,6 @@ public class Utils {
     }
 
     public static String posterPathURL(String posterPath) {
-        return "http://image.tmdb.org/t/p/w185//" + posterPath;
+        return "https://image.tmdb.org/t/p/w185//" + posterPath;
     }
 }

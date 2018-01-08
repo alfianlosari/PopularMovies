@@ -14,7 +14,7 @@
 
         <activity
             android:name=".MovieListActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -28,6 +28,13 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
                 <data android:path="/main" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" android:host="nd85.app.link" />
+                <data android:scheme="https" android:host="nd85.app.link" />
             </intent-filter>
             <meta-data
                 android:name="default-url"
